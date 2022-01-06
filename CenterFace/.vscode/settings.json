@@ -1,0 +1,8 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/jetson-xavier-agx/robidia_v_0.0.1/devel/lib/python2.7/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages",
+        "/home/jetson-xavier-agx/robidia2_ws/src/sample_hand/sample_hand",
+        "/home/jetson-xavier-agx/robidia2_ws/src/sample_hand"
+    ]
+}
