@@ -1,8 +1,7 @@
 import cv2
 import scipy.io as sio
 import os
-from centerface import CenterFace
-
+from CenterFace.prj_python.centerface import CenterFace
 
 def camera():
     cap = cv2.VideoCapture(0)
@@ -24,9 +23,19 @@ def camera():
             break
     cap.release()
 
+def display_image(dets, lms, frame):
+    for det in dets:
+        boxes, score = det[:4], det[4]
+        cv2.rectangle(frame, (int(boxes[0]), int(boxes[1])), (int(boxes[2]), int(boxes[3])), (2, 255, 0), 1)
+    
+    for lm in lms:
+        for i in range(0, 5):
+            cv2.circle(frame, (int(lm[i * 2]), int(lm[i * 2 + 1])), 2, (0, 0, 255), -1)
+    cv2.imshow('out', frame)
+    cv2.waitKey(0)
 
 def test_image():
-    frame = cv2.imread('test_hd.jpg')
+    frame = cv2.imread('test2.jpg')
     h, w = frame.shape[:2]
     landmarks = True
     centerface = CenterFace(landmarks=landmarks)
@@ -35,17 +44,11 @@ def test_image():
     else:
         dets = centerface(frame, threshold=0.35)
     print(dets.shape)
-    for det in dets:
-        boxes, score = det[:4], det[4]
-        cv2.rectangle(frame, (int(boxes[0]), int(boxes[1])), (int(boxes[2]), int(boxes[3])), (2, 255, 0), 1)
-    if landmarks:
-        for lm in lms:
-            for i in range(0, 5):
-                cv2.circle(frame, (int(lm[i * 2]), int(lm[i * 2 + 1])), 2, (0, 0, 255), -1)
-    cv2.imshow('out', frame)
-    cv2.waitKey(0)
+    display_image(dets, lms, frame)
+
+
 
 if __name__ == '__main__':
-    camera()
-    # test_image()
-    # test_widerface()
+    # camera()
+    test_image()
+
